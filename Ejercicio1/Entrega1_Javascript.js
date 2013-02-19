@@ -1,6 +1,8 @@
+// Asignatura: SWCM
 // Entrega 1: Javascript
-// Daniel Sánchez Seijo
-// SWCM
+// Nombre: Daniel Sánchez Seijo
+// DNI: 52005819J
+
 
 function Libro(Titulo, autor, ISBN, precio) {
 	this.Titulo = Titulo;
