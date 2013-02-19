@@ -1,0 +1,23 @@
+function Libro(Titulo, autor, ISBN, precio) {
+	this.Titulo = titulo;
+	this.autor = autor;
+	this.ISBN = ISBN;
+	this.precio = precio;
+}
+Libro.prototype = {
+	listar_detalles: function(){
+		return "El área de la base es: " + this.x*this.y;
+	},
+	precio_rebajado: function(descuento){
+		return "El volumen es: " + this.x*this.y*this.z;
+	}
+}
+
+Libro.catalogo
+
+Libro.listar_catalogo = function(){
+retu
+
+var para = new Paralelepipedo(1,2,4);
+console.log(para.area());
+console.log(para.volumen());

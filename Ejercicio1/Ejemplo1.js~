@@ -1,0 +1,16 @@
+function Persona(nombre, edad) {
+	this.nombre = nombre;
+	this.edad = edad;
+}
+Persona.prototype = {
+	resumen: function(){
+		return this.nombre + ' tiene ' + this.edad + ' años.';
+	},
+	risas: function(){
+		return this.nombre + ' está siempre de risas.';
+	}
+}
+
+var victor = new Persona('Víctor',22);
+console.log(victor.resumen());
+console.log(victor.prototype.risas().risas());
