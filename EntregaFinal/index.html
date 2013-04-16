@@ -1,0 +1,179 @@
+<!DOCTYPE html> 
+<html lang="es">
+	<head>
+    <meta charset="utf-8"><title>Entrega Final Tema 1</title> 
+    
+    <link rel='stylesheet' type='text/css' href='./css/style.css' />
+
+    <link rel='stylesheet' 
+      media='only screen and (min-width: 1024px)'
+      href='./css/wide.css' />
+    
+    <link rel='stylesheet' 
+      media='only screen and (max-width: 1024px)' 
+      href='./css/tablet.css' />
+    
+    <link rel='stylesheet' 
+      media='only screen and (max-device-width: 480px)'
+      href='./css/smartphone.css' />
+
+    <link rel='stylesheet' 
+      media='only screen and (max-width: 480px)'
+      href='./css/smartphone.css' />
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src= "http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=geometry&sensor=false"> </script>
+
+    <script type="text/javascript">
+      $(function(){
+        if (navigator.geolocation){
+          navigator.geolocation.getCurrentPosition(displayPosition, errorFunction);
+        } else { alert('Geolocation is not supported in this browser.'); }
+
+        function displayPosition(pos){
+
+          if(!localStorage.lat) localStorage.lat="38.0959";
+          if(!localStorage.lon) localStorage.lon="-3.77486";
+
+          var mylat=pos.coords.latitude;
+          var mylong= pos.coords.longitude;
+          var latlng = new google.maps.LatLng(mylat,mylong);
+          
+          $('#locationinfo').html(mylat+'º '+mylong+'º');
+          $('#longitud').val(mylong);
+          $('#latitud').val(mylat);
+          
+          var centro = latlng;
+
+          if(localStorage.lat && localStorage.lon){
+            var previouslatlng= new google.maps.LatLng(localStorage.lat, localStorage.lon);
+            centro= new google.maps.geometry.spherical.interpolate(latlng, previouslatlng,0.5);
+            var distance = google.maps.geometry.spherical.computeDistanceBetween(latlng,previouslatlng);
+            var unidad='m';
+            if(distance>=1000){
+              distance = distance/1000;
+              unidad='km';
+            }
+            
+            $('#previouslocation').html(localStorage.lat+'º '+localStorage.lon+'º');
+            $('#distance').html(distance + ' ' + unidad);
+          }
+
+          var myOptions = { zoom:13, center: centro, mapTypeId: google.maps.MapTypeId.SATELLITE };
+          var map = new google.maps.Map($('#map_canvas')[0],myOptions);
+          var marker= new google.maps.Marker({position:latlng,map:map,title:"You are here"});
+
+          if(localStorage.lat && localStorage.lon){
+            var marker= new google.maps.Marker({position:previouslatlng,map:map,title:"You were here"});
+            var bounds= new google.maps.LatLngBounds();
+            bounds.extend(latlng);
+            bounds.extend(previouslatlng);
+            map.fitBounds(bounds);
+          }
+
+          localStorage.lat=mylat;
+          localStorage.lon=mylong;
+
+          var geocoder = new google.maps.Geocoder();
+
+          geocoder.geocode({'latLng': latlng}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+              if (results[0]) {
+                $('#direccion').html(results[0].formatted_address);
+              }
+            } else {
+              $('#direccion').html('Sin resultados concretos');
+            }
+          });
+        }
+        function errorFunction(pos){ alert('Error!'); }
+
+        $(function(){
+          $('#but').on('click', function(){
+            var posicion={coords:{longitude: $('#longitud').val(), latitude: $('#latitud').val()}};
+            displayPosition(posicion);
+          });
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+  <div id="page-wrap">
+  	<header class="main" id="h1">
+      <h1>Página de la Entrega Final Tema 1</h1>
+    </header>
+    
+    <section class="main" id="s1">
+      <div id="contenedor">
+        <div id="primera">
+          <article class="video">
+            <video controls preload>
+               <source src="video.mp4" type="video/mp4">
+               <source src="video.webm" type="video/webm">
+              <source src="video.ogg" type="video/ogg">
+            </video>
+          </article>
+
+          <article class="texto">
+            <div id="texto">
+              <h2>Bienvenidos a la página que Daniel Sánchez Seijo y Jose Santos Sánchez Sánchez han realizado para 
+              la asignatura de SWCM.<p>
+              Principalmente, son tres las funciones que desempeña. En primer lugar, tenemos una explicación 
+              como ésta pero en un video, transformado además tanto a .mp4, como a .ogg y .webm que os ayudará 
+              a entender lo que realiza la página sin aburriros tanto como este parrafo. La segunda función 
+              es el mapa, que ofrece por pantalla la dirección y coordenadas de la posición actual, las coordenadas 
+              de la posición anterior y la distancia entre ambas; también podremos cambiar manualmente la última 
+              posición introduciendo coordenadas manualmente. Por último, tenemos que decir que la página web es 
+              responsiva y se adapta perfectamente tanto a widescreen como a tablet y a smartphone. Eso es todo, 
+              disfrutad de la página.</h2>
+            </div>
+          </article>
+        </div>
+
+        <div id="segunda">
+          <article class="mapa">
+            <div id="map_canvas" ></div>
+            <p> 
+            <div class='tabla'>
+            <table>
+              <tr>
+                <td>Dirección</td> <td><div id="direccion"></div></td>
+              </tr>
+              <tr>
+                <td>Posición actual</td> <td><div id="locationinfo"></div></td>
+              </tr>
+              <tr>
+                <td>Posición anterior</td> <td><div id="previouslocation"></div></td>
+              </tr>
+              <tr>
+                <td>Distancia</td> <td><div id="distance"></div></td>
+            <form>
+              <tr>
+                <td>Latitud</td> <td><input type='text' id='latitud' value='' size='9'/></td>
+              </tr>
+              <tr>
+                <td>Longitud</td> <td><input type='text' id='longitud' value='' size='9'/></td>
+              </tr>
+            </table>
+            <table>
+              <tr>
+                <td><input type='button' id='but' value='aplicar'/></td>
+              </tr>
+            </form>
+            </table>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <footer class="main" id="f1"> 
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.es_ES"><img alt="Licencia de Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a><br /><h2>Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.es_ES">licencia de Creative Commons Reconocimiento-NoComercial-CompartirIgual 3.0 Unported</a>.</h2>
+      <h2>Daniel Sánchez Seijo y José Santos Sánchez Sánchez</h2>
+    </footer>
+  </div>
+ 	</body>
+
+</html>

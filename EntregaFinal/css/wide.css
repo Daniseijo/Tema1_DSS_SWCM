@@ -1,0 +1,49 @@
+/*----------Estilo general-------------*/
+
+h1{
+	font-size: 30px;
+}
+
+body{
+	background-color:#131313;
+}
+
+header, section, footer{
+	width:920px;
+}
+
+#page-wrap:after { 
+	content: "Wide Layout";
+}
+
+/*-------------------Estilo por separado--------------*/
+
+article.video {
+	width:66%;
+	display: table-cell;
+}
+
+video {
+	width:98%;
+}
+
+article.texto{
+	width: 34%;
+	background: #AE1D1D;
+	vertical-align: top;
+	display: table-cell;
+}
+
+#texto{
+	width:90%;
+	display: block;
+	margin-left: 5%;
+	margin-top: 5%;
+	text-align: left;
+}
+
+#map_canvas{
+  	margin-top: 2%;
+  	height: 500px;
+  	width: 100%;
+}
