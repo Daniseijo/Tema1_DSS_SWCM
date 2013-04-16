@@ -1,8 +1,9 @@
-// Asignatura: SWCM
 // Entrega 1: Javascript
+// Asignatura: SWCM
 // Nombre: Daniel Sánchez Seijo
 // DNI: 52005819J
-
+// Nombre: José Santos Sánchez Sánchez
+// DNI: 26256070Y
 
 function Libro(Titulo, autor, ISBN, precio) {
 	this.Titulo = Titulo;
@@ -14,11 +15,10 @@ function Libro(Titulo, autor, ISBN, precio) {
 
 Libro.prototype = {
 	listar_detalles: function(){
-		return "Título: " + this.Titulo + "; Autor: " + this.autor +
-		"; ISBN: " + this.ISBN + "; Precio: " + this.precio + "€.";
+		console.log("Título: " + this.Titulo + "; Autor: " + this.autor + "; ISBN: " + this.ISBN + "; Precio: " + this.precio + "€.");
 	},
-	precio_rebajado: function(descuento){ // El descuento es en tanto por ciento y redondeado a dos decimales.
-		this.precio = Math.round((this.precio-((descuento/100)*this.precio))*100)/100;
+	precio_rebajado: function(descuento){ // El descuento es en tanto por ciento y redondea a dos decimales.
+		this.precio = Math.round(this.precio*(100-descuento))/100;
 	}
 }
 
@@ -26,7 +26,7 @@ Libro.catalogo = [];
 
 Libro.listar_catalogo = function() {
 	for (i in Libro.catalogo)
-		console.log(Libro.catalogo[i].listar_detalles());
+		Libro.catalogo[i].listar_detalles();
 }
 
 // Pequeño programa de prueba
